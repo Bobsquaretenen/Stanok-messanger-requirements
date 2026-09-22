@@ -86,9 +86,9 @@
 * **Ответственные:** [Укажите имена членов команды напротив соответствующих шагов, например: Backend — Иван, Frontend — Анна].
 
 ## 6. Полезные ссылки
-* **Документация и требования:** [Ссылка на репозиторий messenger-docs]
-* **Исходный код проекта:** [Ссылка на репозиторий messenger-app]
-* **Дизайн-макеты (Figma):** [Ссылка на Figma]
+* **Документация и требования:** [https://github.com/Bobsquaretenen/Stanok-messanger-requirements]
+* **Исходный код проекта:** [https://github.com/Bobsquaretenen/STANKIN_Messanger_StanokInc]
+* **Дизайн-макеты (Figma):** [https://www.figma.com/design/PW12oCkFSL2qbkRu83FeS0/Design?node-id=0-1&t=VyHvMASyDINVWqV4-1]
 
 ---
 *Дата последнего обновления: 22 сентября 2026 г. | Версия: 1.0.0* 
