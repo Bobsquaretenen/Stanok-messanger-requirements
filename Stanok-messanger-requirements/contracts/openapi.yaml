@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: API Корпоративного мессенджера «СТАНКИН»
+  version: 1.0.0
+  description: REST API серверной части на Spring Boot для взаимодействия с React SPA клиентом.
+
+servers:
+  - url: https://api.stankin-messenger.ru/api/v1
+    description: Боевой сервер (Production)
+
+paths:
+  /chats/{chatId}/messages:
+    post:
+      summary: Отправка сообщения в групповой чат
+      description: Отправляет текстовое или файловое сообщение. Возвращает 403, если студенты пытаются написать в закрытый чат (isClosed == true).
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          description: Идентификатор группового чата
+          schema:
+            type: integer
+            example: 102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMessageRequest'
+      responses:
+        '201':
+          description: Сообщение успешно создано и отправлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '403':
+          description: Доступ запрещен (Чат закрыт для студентов или пользователь не состоит в группе)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Чат с указанным ID не найден
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateMessageRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          example: "Здравствуйте! Подскажите время проведения лекции."
+        fileId:
+          type: string
+          nullable: true
+          example: "file-uuid-12345"
+
+    MessageResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5012
+        chatId:
+          type: integer
+          example: 102
+        senderName:
+          type: string
+          example: "Студент 1"
+        text:
+          type: string
+          example: "Здравствуйте! Подскажите время проведения лекции."
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-09-22T20:13:52Z"
+
+    ApiError:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 403
+        message:
+          type: string
+          example: "Чат находится в режиме 'Только для чтения'. Отправка сообщений запрещена."
